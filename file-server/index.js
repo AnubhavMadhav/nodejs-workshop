@@ -15,10 +15,14 @@ const app = http.createServer((request, response) => {
     const filePath = path.join(__dirname, 'static', url)
     console.log(filePath)
 
+    if(fileSystem.existsSync(filePath)){
     const fileStream = fileSystem.createReadStream(filePath)
     fileStream.pipe(response)
-    }
-    catch(err){
+    }   
+    else{
+        response.end()
+        }
+    }catch(err){
     console.log(err)
 }}
 )
