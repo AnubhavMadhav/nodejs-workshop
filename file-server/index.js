@@ -1,14 +1,33 @@
-let a=5
-let b= 'String'
-let c=[1,2,3,4,5]
-let d={
-    'value-1': 'This is value 1',
-    'value-2': 'This is value 2'
-}
+const http = require('http')
+const path = require('path')
+const fileSystem = require('fs')
 
-for(let z=0;z<11;z++)
-{
-    console.log(z)
-}
+const app = http.createServer((request, response) => {
+    try{
+    console.log(request.url)
 
-console.log(a,b,c,d)
+    let url = request.url
+
+    if(url === '/'){
+        url = '/index.html'
+    }
+    
+    const filePath = path.join(__dirname, 'static', url)
+    console.log(filePath)
+
+    const fileStream = fileSystem.createReadStream(filePath)
+    fileStream.pipe(response)
+    }
+    catch(err){
+    console.log(err)
+}}
+)
+
+app.listen(8000,(err)=> {
+    if(err){
+        console.log(err)
+    }
+    else{
+        console.log('Server running at Port 8000')
+    }
+})
